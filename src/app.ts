@@ -5,6 +5,7 @@ import express from "express";
 import config from "config";
 import router from "./router";
 import db from "../config/db";
+import Logger from "../config/logger";
 
 const app = express();
 
@@ -17,5 +18,5 @@ app.use("/api/", router);
 app.listen(port, async () => {
   await db();
 
-  console.log(`listening on port ${port}`);
+  Logger.info(`listening on port ${port}`);
 });
