@@ -14,7 +14,7 @@ app.use(express.json());
 
 const port = config.get<number>("port");
 
-app.use(morganMiddleware);
+app.use(morganMiddleware); // aplicado a todas as rotas -- precisa ficar acima das rotas
 
 app.use("/api/", router);
 
