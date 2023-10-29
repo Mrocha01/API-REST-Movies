@@ -3,10 +3,10 @@ import config from "config";
 
 const levels = {
   error: 0,
-  warning: 1,
+  warn: 1,
   info: 2,
   http: 3,
-  debugger: 4,
+  debug: 4,
 };
 
 const level = () => {
@@ -26,8 +26,8 @@ const colors = {
 winston.addColors(colors);
 
 const format = winston.format.combine(
-  winston.format.timestamp({ format: "yyyy-MM-dd HH:mm:ss" }),
-  winston.format.colorize({ all: true }),
+  winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+  winston.format.colorize(),
   winston.format.printf(
     (info) => `${info.timestamp} - ${info.level}: ${info.message}`
   )
@@ -40,7 +40,7 @@ const transports = [
     level: "error",
   }),
   new winston.transports.File({
-    filename: "logs/info.log",
+    filename: "logs/all.log",
   }),
 ];
 
