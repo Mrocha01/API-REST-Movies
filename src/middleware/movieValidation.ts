@@ -40,4 +40,14 @@ export const movieValidator = checkSchema({
       errorMessage: "O nome do diretor é obrigatório e deve ser uma string!",
     },
   },
+  stars: {
+    isArray: {
+      errorMessage: "Necessario 01 ou mais celebridades ao filme!",
+    },
+  },
+  poster: {
+    isURL: {
+      errorMessage: "A imagem precisa ser uma URL!",
+    },
+  },
 });
