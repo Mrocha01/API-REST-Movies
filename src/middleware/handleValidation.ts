@@ -1,16 +1,25 @@
-import { Request, Response, NextFunction } from "express";
-import { validationResult } from "express-validator";
+import express from "express";
+import { validationResult, ValidationChain } from "express-validator";
 
-export const validate = (req: Request, res: Response, next: NextFunction) => {
-  const errors = validationResult(req);
+export const validate = (validations: ValidationChain[]) => {
+  return async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    for (const validation of validations) {
+      const result = await validation.run(req);
+      if (result.array().length) break;
+    }
 
-  if (errors.isEmpty()) {
-    return next();
-  }
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+      return next();
+    }
 
-  const extractectErrors: object[] = [];
+    // Mapeie os erros para extrair apenas a propriedade "msg"
+    const errorMessages = errors.array().map((error) => error.msg);
 
-  errors.array().map((err) => extractectErrors.push({ [err.type]: err.msg }));
-
-  return res.status(422).json({ errors: extractectErrors });
+    res.status(400).json({ errors: errorMessages });
+  };
 };

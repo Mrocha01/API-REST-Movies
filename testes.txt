@@ -1,0 +1,60 @@
+import { checkSchema } from "express-validator";
+
+function rateNum(value: number) {
+  if (value < 0 || value > 10) {
+    throw new Error("A nota precisa ser entre 0 a 10!");
+  }
+  return true;
+}
+
+export const movieValidator = checkSchema({
+  title: {
+    isString: {
+      errorMessage: "O Titulo é obrigatório!",
+    },
+    isLength: { options: { min: 5 } },
+  },
+  rating: {
+    isNumeric: {
+      errorMessage: "A nota precisa ser um número.",
+    },
+    custom: { options: rateNum },
+  },
+  description: {
+    isString: {
+      errorMessage: "A descrição é obrigatória!",
+    },
+    isLength: { options: { max: 100 } },
+  },
+  director: {
+    isString: {
+      errorMessage: "O nome do diretor é obrigatório!",
+    },
+  },
+});
+
+
+import { body } from "express-validator";
+
+function rateNum(value: number) {
+  if (value < 0 || value > 10) {
+    throw new Error("A nota precisa ser entre 0 a 10!");
+  }
+  return true;
+}
+
+export const movieValidator = () => {
+  body("title")
+    .isString()
+    .withMessage("O Titulo é obrigatório!")
+    .isLength({ min: 5 });
+
+  body("rating")
+    .isString()
+    .withMessage("A nota precisa ser um número.")
+    .custom(rateNum);
+
+  body("description").isString().withMessage("A descrição é obrigatória!");
+
+  body("director").isString().withMessage("O nome do diretor é obrigatório!");
+};
