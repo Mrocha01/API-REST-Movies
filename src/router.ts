@@ -1,12 +1,15 @@
-import { Router, Request, Response } from "express";
-import { createMovie } from "./controllers/movieController";
+import { Router } from "express";
+import {
+  createMovie,
+  findMovieById,
+  moviesAll,
+} from "./controllers/movieController";
 import { validate } from "./middleware/handleValidation";
 import { movieValidator } from "./middleware/movieValidation";
 
 const router = Router();
 
 export default router
-  .get("/test", (req: Request, res: Response) => {
-    res.status(200).json({ message: "Welcome!" });
-  })
+  .get("/movie/all", moviesAll)
+  .get("/movie/:id", findMovieById)
   .post("/movie", validate(movieValidator), createMovie);
