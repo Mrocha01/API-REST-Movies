@@ -11,6 +11,7 @@ export async function createMovie(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     Logger.error(error.message);
+    return res.status(500).json({ message: "Erro interno do servidor." });
   }
 }
 
@@ -34,6 +35,7 @@ export async function findMovieById(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     Logger.error(error.message);
+    return res.status(500).json({ message: "Erro interno do servidor." });
   }
 }
 
@@ -51,6 +53,7 @@ export async function moviesAll(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     Logger.error(error.message);
+    return res.status(500).json({ message: "Erro interno do servidor." });
   }
 }
 
@@ -76,6 +79,7 @@ export async function removeMovie(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     Logger.error(error.message);
+    return res.status(500).json({ message: "Erro interno do servidor." });
   }
 }
 
@@ -104,5 +108,6 @@ export async function updateMovie(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     Logger.error(error.message);
+    return res.status(500).json({ message: "Erro interno do servidor." });
   }
 }
