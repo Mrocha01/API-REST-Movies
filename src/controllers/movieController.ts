@@ -36,10 +36,28 @@ export async function moviesAll(req: Request, res: Response) {
     if (!movies) {
       return res
         .status(404)
-        .json({ message: "Galera vazia, por favor insira algum filme!" });
+        .json({ message: "Galeria vazia, por favor insira algum filme!" });
     }
 
     return res.status(200).json(movies);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    Logger.error(error.message);
+  }
+}
+
+export async function removeMovie(req: Request, res: Response) {
+  try {
+    const id = req.params.id;
+    const movie = await MovieModel.findByIdAndDelete(id);
+
+    if (!movie) {
+      return res.status(404).json({ message: "Filme não encontrado!" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Filme removido com sucesso!", movie });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     Logger.error(error.message);
