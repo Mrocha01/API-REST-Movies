@@ -63,3 +63,24 @@ export async function removeMovie(req: Request, res: Response) {
     Logger.error(error.message);
   }
 }
+
+export async function updateMovie(req: Request, res: Response) {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const movie = await MovieModel.findById(id);
+
+    if (!movie) {
+      return res.status(404).json({ message: "Filme não encontrado!" });
+    }
+
+    await MovieModel.updateOne({ _id: id }, data);
+
+    return res
+      .status(200)
+      .json({ message: "Filme atualizado com sucesso!", data });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    Logger.error(error.message);
+  }
+}
