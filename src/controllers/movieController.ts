@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { MovieModel } from "../models/Movie";
 import Logger from "../../config/logger";
+import { ObjectId } from "mongodb";
 
 export async function createMovie(req: Request, res: Response) {
   try {
@@ -16,6 +17,13 @@ export async function createMovie(req: Request, res: Response) {
 export async function findMovieById(req: Request, res: Response) {
   try {
     const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+      return res
+        .status(400)
+        .json({ message: "ID inválido. Forneça um ObjectId válido." });
+    }
+
     const movie = await MovieModel.findById(id);
 
     if (!movie) {
@@ -49,6 +57,13 @@ export async function moviesAll(req: Request, res: Response) {
 export async function removeMovie(req: Request, res: Response) {
   try {
     const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+      return res
+        .status(400)
+        .json({ message: "ID inválido. Forneça um ObjectId válido." });
+    }
+
     const movie = await MovieModel.findByIdAndDelete(id);
 
     if (!movie) {
@@ -68,6 +83,13 @@ export async function updateMovie(req: Request, res: Response) {
   try {
     const id = req.params.id;
     const data = req.body;
+
+    if (!ObjectId.isValid(id)) {
+      return res
+        .status(400)
+        .json({ message: "ID inválido. Forneça um ObjectId válido." });
+    }
+
     const movie = await MovieModel.findById(id);
 
     if (!movie) {
